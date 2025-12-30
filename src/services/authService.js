@@ -2,26 +2,48 @@ import {
   CognitoUserPool,
   CognitoUser,
   AuthenticationDetails,
-} from 'amazon-cognito-identity-js';
+  CognitoUserAttribute,
+} from "amazon-cognito-identity-js";
 
+// ✅ Your Cognito Details
 const poolData = {
-  UserPoolId: 'YOUR_USER_POOL_ID', // e.g. us-east-1_XXXX
-  ClientId: 'YOUR_CLIENT_ID', // App client ID
+  UserPoolId: "us-east-1_MbsFvxTR0",
+  ClientId: "p1h9g2e78qb5imodqk13cflnn",
 };
 
 const userPool = new CognitoUserPool(poolData);
 
-// Sign up function
-export const signUp = (email, password) => {
+// ✅ SIGN UP (with name & email)
+export const signUp = (email, password, name) => {
   return new Promise((resolve, reject) => {
-    userPool.signUp(email, password, [], null, (err, result) => {
+    const attributes = [
+      new CognitoUserAttribute({ Name: "name", Value: name }),
+      new CognitoUserAttribute({ Name: "email", Value: email }),
+    ];
+
+    userPool.signUp(email, password, attributes, null, (err, result) => {
       if (err) reject(err);
       else resolve(result);
     });
   });
 };
 
-// Login function
+// ✅ CONFIRM SIGNUP (using code from email)
+export const confirmSignUp = (email, code) => {
+  return new Promise((resolve, reject) => {
+    const user = new CognitoUser({
+      Username: email,
+      Pool: userPool,
+    });
+
+    user.confirmRegistration(code, true, (err, result) => {
+      if (err) reject(err);
+      else resolve(result);
+    });
+  });
+};
+
+// ✅ LOGIN
 export const login = (email, password) => {
   return new Promise((resolve, reject) => {
     const user = new CognitoUser({

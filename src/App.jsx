@@ -17,6 +17,9 @@ import HistoryPage from './pages/HistoryPage';
 import NotFound from './pages/NotFound';
 import About from './pages/About';
 import Contact from './pages/Contact';
+// import confirmSignUp from './pages/ConfirmSignupPage';
+import ConfirmSignupPage from './pages/ConfirmSignupPage';
+
 function App() {
   return (
     <ThemeProvider>
@@ -32,6 +35,8 @@ function App() {
               <Route path="/signup" element={<SignupPage />} />
   <Route path="/about" element={<About />} />
   <Route path="/contact" element={<Contact />} />
+  <Route path="/confirm-signup" element={<ConfirmSignupPage />} />
+
               {/* Protected Routes */}
               <Route
                 path="/dashboard"

@@ -1,17 +1,45 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { login } from "../services/authService";
+import { useAuth } from "../context/AuthContext"; // <-- import context
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const { login: setUser } = useAuth(); // <-- get login function from context
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Add login logic / API call here
-    console.log({ email, password });
-    navigate('/dashboard'); // redirect after login
+    setError("");
+    setLoading(true);
+
+    try {
+      const result = await login(email, password);
+      console.log("Login success:", result);
+
+      // Extract user info
+      const userData = {
+        email: result.getIdToken().payload.email,
+        accessToken: result.getAccessToken().getJwtToken(),
+        idToken: result.getIdToken().getJwtToken(),
+      };
+
+      // Update AuthContext
+      setUser(userData);
+
+      // Optional: save in localStorage
+      localStorage.setItem("user", JSON.stringify(userData));
+
+      // Redirect to profile page
+      navigate("/profile");
+    } catch (err) {
+      setError(err.message || "Login failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -35,7 +63,7 @@ const LoginPage = () => {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition"
+              className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 border rounded-lg focus:ring-2 focus:ring-green-500"
             />
           </div>
 
@@ -48,21 +76,25 @@ const LoginPage = () => {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition"
+              className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 border rounded-lg focus:ring-2 focus:ring-green-500"
             />
           </div>
 
           <button
             type="submit"
+            disabled={loading}
             className="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition"
           >
-            Sign In
+            {loading ? "Signing in..." : "Sign In"}
           </button>
         </form>
 
         <p className="text-sm text-gray-600 dark:text-gray-400 text-center mt-6">
-          Don't have an account?{' '}
-          <Link to="/signup" className="text-green-600 dark:text-green-400 font-medium hover:underline">
+          Don't have an account?{" "}
+          <Link
+            to="/signup"
+            className="text-green-600 font-medium hover:underline"
+          >
             Sign Up
           </Link>
         </p>

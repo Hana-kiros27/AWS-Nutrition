@@ -17,4 +17,7 @@ export default defineConfig({
       ],
     },
   },
+  server: {
+    port: 3000,  // <--- add this to run Vite dev server on port 3000
+  },
 });

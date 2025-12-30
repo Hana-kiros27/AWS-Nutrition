@@ -1,17 +1,24 @@
 import { Link, NavLink } from 'react-router-dom';
 import { FaSun, FaMoon, FaBars } from 'react-icons/fa';
 import { useTheme } from '../context/ThemeContext';
+import { useAuth } from '../context/AuthContext'; // import auth
 import { useState } from 'react';
 import MobileMenu from './MobileMenu';
 
 const Header = () => {
   const { theme, toggleTheme } = useTheme();
+  const { user } = useAuth(); // get logged-in user
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  // Only show Plans and Tracker if user is logged in
   const navItems = [
     { name: 'Home', path: '/' },
-    { name: 'Plans', path: '/plans' },
-    { name: 'Meal Tracker', path: '/tracker' },
+    ...(user
+      ? [
+          { name: 'Plans', path: '/plans' },
+          { name: 'Meal Tracker', path: '/tracker' },
+        ]
+      : []),
     { name: 'About', path: '/about' },
     { name: 'Contact', path: '/contact' },
   ];
