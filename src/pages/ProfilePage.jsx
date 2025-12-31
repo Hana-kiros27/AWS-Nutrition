@@ -32,7 +32,7 @@ export default function ProfilePage() {
 
     try {
       const response = await fetch(
-        "https://fjgu0fcsec.execute-api.us-east-1.amazonaws.com/save-profile",
+        "https://hgfmwcfvcc.execute-api.us-east-1.amazonaws.com/save-profile",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

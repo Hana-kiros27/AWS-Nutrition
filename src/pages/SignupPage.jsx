@@ -8,7 +8,7 @@ const SignupPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [message, setMessage] = useState(''); // ✅ New state for success message
+  const [message, setMessage] = useState(''); //  New state for success message
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -19,7 +19,7 @@ const SignupPage = () => {
 
     try {
       await signUp(email, password, name);
-      setMessage('✅ Signup successful! Check your email for the verification code.'); // Show inline
+      setMessage('Signup successful! Check your email for the verification code.'); // Show inline
       // Optionally redirect after a few seconds
       setTimeout(() => {
         navigate('/confirm-signup', { state: { email } });
