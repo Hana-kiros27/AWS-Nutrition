@@ -17,8 +17,10 @@ import HistoryPage from './pages/HistoryPage';
 import NotFound from './pages/NotFound';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import MealPlanPage from './pages/MealPlanPage';
 // import confirmSignUp from './pages/ConfirmSignupPage';
 import ConfirmSignupPage from './pages/ConfirmSignupPage';
+import MealTrackerPage from './pages/MealTrackerPage';
 
 function App() {
   return (
@@ -74,6 +76,23 @@ function App() {
                 }
               />
 
+     <Route
+                path="/meal-plans"
+                element={
+                  <ProtectedRoute>
+                    <MealPlanPage />
+                  </ProtectedRoute>
+                }
+              />
+
+               <Route
+                path="/meal-tracker"
+                element={
+                  <ProtectedRoute>
+                    <MealTrackerPage />
+                  </ProtectedRoute>
+                }
+              />
               {/* Fallback */}
               <Route path="*" element={<NotFound />} />
             </Routes>

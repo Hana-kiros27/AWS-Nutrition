@@ -7,8 +7,8 @@ import {
 
 // ✅ Your Cognito Details
 const poolData = {
-  UserPoolId: "us-east-1_MbsFvxTR0",
-  ClientId: "p1h9g2e78qb5imodqk13cflnn",
+  UserPoolId: "us-east-1_iaO2KOF1c",
+  ClientId: "eglo36ubn6s5op6i95vcllao1",
 };
 
 const userPool = new CognitoUserPool(poolData);

@@ -23,6 +23,30 @@ const Home = () => {
           </Link>
         </div>
       </section>
+{/* Why Smart Nutrition Section */}
+<section className="py-12 bg-white dark:bg-gray-900">
+  <div className="container mx-auto px-4 text-center">
+    <h2 className="text-2xl md:text-3xl font-bold mb-4 text-green-600">
+      Why Smart Nutrition?
+    </h2>
+
+    <p className="max-w-3xl mx-auto text-gray-600 dark:text-gray-300 text-lg mb-8">
+      Because healthy eating shouldn’t be confusing.  
+      Smart Nutrition helps you understand what you eat, improve daily habits,
+      and reach your goals with AI-powered guidance.
+    </p>
+
+    {/* Image */}
+    <div className="flex justify-center">
+      <img
+        src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg"
+        alt="Healthy nutrition and lifestyle"
+        className="w-full max-w-3xl rounded-xl shadow-lg object-cover"
+      />
+    </div>
+  </div>
+</section>
+
 
       {/* Features Section */}
       <section className="py-12 bg-gray-50 dark:bg-gray-800">
@@ -48,6 +72,61 @@ const Home = () => {
           </div>
         </div>
       </section>
+{/* Technology Trust Section */}
+<section className="py-12 bg-gray-100 dark:bg-gray-800">
+  <div className="container mx-auto px-4 text-center">
+    <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">
+      Built with Modern Cloud & AI Technologies
+    </h2>
+
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-sm">
+      <div className="bg-white dark:bg-green-900 p-4 rounded shadow">
+        ☁️ <strong>AWS Lambda</strong>
+        <p className="mt-2">Serverless backend processing</p>
+      </div>
+
+      <div className="bg-white dark:bg-gray-900 p-4 rounded shadow">
+        🔐 <strong>Amazon Cognito</strong>
+        <p className="mt-2">Secure authentication</p>
+      </div>
+
+      <div className="bg-white dark:bg-gray-900 p-4 rounded shadow">
+        🧠 <strong>Amazon Bedrock</strong>
+        <p className="mt-2">AI meal analysis & planning</p>
+      </div>
+
+      <div className="bg-white dark:bg-gray-900 p-4 rounded shadow">
+        📊 <strong>DynamoDB</strong>
+        <p className="mt-2">Fast & scalable data storage</p>
+      </div>
+    </div>
+  </div>
+</section>
+{/* Personal Promise Section */}
+<section className="py-12 bg-white dark:bg-gray-900">
+  <div className="container mx-auto px-4 text-center">
+    <h2 className="text-3xl font-bold mb-6 text-green-600">
+      Your Health. Your Goals. Your Assistant.
+    </h2>
+
+    <div className="grid md:grid-cols-3 gap-6 text-gray-700 dark:text-gray-300">
+      <div className="p-4">
+        🎯 <h3 className="font-semibold mt-2">Goal-Based Plans</h3>
+        <p>Lose weight, gain muscle, or stay fit with AI-generated meal plans.</p>
+      </div>
+
+      <div className="p-4">
+        📸 <h3 className="font-semibold mt-2">Just Upload & Learn</h3>
+        <p>Take a photo of your meal and get instant nutritional insights.</p>
+      </div>
+
+      <div className="p-4">
+        📈 <h3 className="font-semibold mt-2">Track Progress</h3>
+        <p>See trends, nutrients, and improvements over time.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* Call-to-action Section */}
       <section className="py-12 bg-green-500 dark:bg-green-600 text-white">

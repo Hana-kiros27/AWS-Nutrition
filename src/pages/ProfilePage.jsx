@@ -3,17 +3,32 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function ProfilePage() {
-  const { user } = useAuth(); // get logged-in user
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
   const [age, setAge] = useState("");
   const [weight, setWeight] = useState("");
   const [height, setHeight] = useState("");
   const [activity, setActivity] = useState("");
   const [goal, setGoal] = useState("");
+
+  const [profileImage, setProfileImage] = useState(null);
+
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState(""); // message below the button
+  const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
-  const navigate = useNavigate();
+  // Handle profile image upload
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setProfileImage(reader.result); // base64 image
+    };
+    reader.readAsDataURL(file);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,11 +43,12 @@ export default function ProfilePage() {
       height,
       activity,
       goal,
+      profileImage,
     };
 
     try {
       const response = await fetch(
-        "https://hgfmwcfvcc.execute-api.us-east-1.amazonaws.com/save-profile",
+        "https://x7gf886npj.execute-api.us-east-1.amazonaws.com/save-profile",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -45,10 +61,18 @@ export default function ProfilePage() {
         throw new Error(errData.message || "Failed to save profile");
       }
 
+      // Save image locally for dashboard
+      if (profileImage) {
+        localStorage.setItem("profileImage", profileImage);
+      }
+      if (user?.email) {
+  localStorage.setItem("email", user.email);
+}
+
       setMessage("Profile saved successfully!");
-      // Redirect to Dashboard after saving
+
       setTimeout(() => {
-        navigate("/dashboard"); 
+        navigate("/dashboard");
       }, 1000);
     } catch (err) {
       setError(err.message);
@@ -57,7 +81,6 @@ export default function ProfilePage() {
     }
   };
 
-  // Extract username from email
   const username = user?.email?.split("@")[0] || "User";
 
   return (
@@ -65,6 +88,30 @@ export default function ProfilePage() {
       <h2 className="text-3xl font-bold mb-6 text-center text-green-600">
         Welcome {username}!
       </h2>
+
+      {/* Profile Picture */}
+      <div className="flex flex-col items-center mb-6">
+        <div className="w-28 h-28 rounded-full overflow-hidden border-4 border-green-500 shadow">
+          <img
+            src={
+              profileImage ||
+              "https://cdn-icons-png.flaticon.com/512/847/847969.png"
+            }
+            alt="Profile"
+            className="w-full h-full object-cover"
+          />
+        </div>
+
+        <label className="mt-3 cursor-pointer text-sm bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
+          Upload Photo
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+            className="hidden"
+          />
+        </label>
+      </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -141,7 +188,6 @@ export default function ProfilePage() {
           {loading ? "Saving..." : "Save Profile"}
         </button>
 
-        {/* Display messages below the button */}
         {message && <p className="text-green-600 text-center mt-3">{message}</p>}
         {error && <p className="text-red-500 text-center mt-3">{error}</p>}
       </form>
